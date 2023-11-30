@@ -1,0 +1,148 @@
+import { test, expect } from '@playwright/test';
+
+test('overview', async ({ page }) => {
+  await page.goto('https://specnota-nextgen.herokuapp.com/');
+  await page.getByPlaceholder('abrahamjohn@gmail.com').click();
+  await page.getByPlaceholder('abrahamjohn@gmail.com').fill('okolijohnson69@gmail.com');
+  await page.getByPlaceholder('******').click();
+  await page.getByPlaceholder('******').fill('12345678');
+  await page.getByRole('button', { name: 'Log In' }).click();
+  await page.pause()
+  await page.locator('.toggler').click();
+  await page.getByRole('link', { name: 'Projects' }).click();
+  await page.locator('.css-1jj8tj8 > div:nth-child(2) > svg').click();
+  await page.getByRole('button', { name: 'To tasks' }).click();
+  await page.locator('div').filter({ hasText: /^This Week$/ }).nth(2).click();
+  await page.locator('div').filter({ hasText: /^All$/ }).nth(2).click();
+  await page.getByRole('tab', { name: 'BackLogs' }).click();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download Backlog Task As Excel' }).click();
+  const download = await downloadPromise;
+  await page.locator('.chakra-stack > .chakra-button').first().click();
+  await page.locator('.css-4g6ai3 > svg').first().click();
+  await page.getByLabel('BackLogs').locator('div').filter({ hasText: /^Filter$/ }).locator('path').click();
+  await page.getByText('Filter by assignee').click();
+  await page.getByRole('button', { name: 'Close' }).click();
+  await page.getByRole('button', { name: 'Create Sprint' }).click();
+  await page.getByPlaceholder('Sprint name').click();
+  await page.getByPlaceholder('Sprint goal').click();
+  await page.getByText('Custom').click();
+  await page.getByText('2 Weeks').click();
+  await page.getByRole('button', { name: 'close-circle' }).click();
+  await page.getByRole('button', { name: 'Add Sprint' }).click();
+  await page.getByRole('button', { name: 'Close' }).click();
+
+});
+
+test('backlogs', async ({ page }) => {
+    await page.goto('https://specnota-nextgen.herokuapp.com/');
+    await page.getByPlaceholder('abrahamjohn@gmail.com').click();
+    await page.getByPlaceholder('abrahamjohn@gmail.com').fill('okolijohnson69@gmail.com');
+    await page.getByPlaceholder('******').click();
+    await page.getByPlaceholder('******').fill('12345678');
+    await page.getByRole('button', { name: 'Log In' }).click();
+    await page.pause()
+    await page.locator('.toggler').click();
+    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.locator('.css-1jj8tj8 > div:nth-child(2) > svg > path').click();
+    await page.getByRole('button', { name: 'To tasks' }).click();
+    await page.getByRole('tab', { name: 'BackLogs' }).click();
+    await page.getByRole('button', { name: 'Create Sprint' }).click();
+    await page.getByPlaceholder('Sprint name').click();
+    await page.getByPlaceholder('Sprint goal').click();
+    await page.getByText('Custom').click();
+    await page.getByText('2 Weeks').click();
+    await page.getByPlaceholder('Start Date').click();
+    await page.getByTitle('-11-30').locator('div').click();
+    await page.getByRole('button', { name: 'Add Sprint' }).click();
+    await page.getByRole('button', { name: 'Close', exact: true }).click();
+    await page.locator('.css-8atqhb > div > div > svg').first().click();
+    await page.locator('div').filter({ hasText: /^Sprint: test\(2\)0 N\/AEnd: 24th Nov 2023Start Sprint$/ }).getByRole('button').first().click();
+    await page.getByPlaceholder('Task title').click();
+    await page.getByRole('button', { name: 'Add Task' }).click();
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.locator('div').filter({ hasText: /^Sprint: test\(2\)0 N\/AEnd: 24th Nov 2023Start Sprint$/ }).locator('svg').nth(2).click();
+    await page.getByPlaceholder('Sprint name').click();
+    await page.getByPlaceholder('Sprint goal').click();
+    await page.getByText('Custom').click();
+    await page.getByRole('button', { name: 'Close', exact: true }).click();
+    await page.getByRole('button', { name: 'Create Epic' }).click();
+    await page.getByPlaceholder('Task title').click();
+    await page.getByRole('button', { name: 'Add new Epic' }).click();
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.locator('div:nth-child(6) > div > div > div > .chakra-button').click();
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.locator('div:nth-child(6) > div > div > div > div > svg').click();
+  });
+
+  test('kanban', async ({ page }) => {
+    await page.goto('https://specnota-nextgen.herokuapp.com/');
+    await page.getByPlaceholder('abrahamjohn@gmail.com').click();
+    await page.getByPlaceholder('abrahamjohn@gmail.com').fill('okolijohnson69@gmail.com');
+    await page.getByPlaceholder('******').click();
+    await page.getByPlaceholder('******').fill('12345678');
+    await page.getByRole('button', { name: 'Log In' }).click();
+    await page.pause()
+    await page.locator('.toggler').click();
+    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.locator('.css-1jj8tj8 > div:nth-child(2) > svg > path').click();
+    await page.getByRole('button', { name: 'To tasks' }).click();
+    await page.getByRole('tab', { name: 'Tasks (Kanban)' }).click();
+    await page.getByLabel('Tasks (Kanban)').locator('a').first().click();
+    await page.getByLabel('Tasks (Kanban)').locator('div').filter({ hasText: /^Tags$/ }).click();
+    await page.getByPlaceholder('Enter tag').click();
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.getByLabel('Tasks (Kanban)').locator('div').filter({ hasText: /^List$/ }).click();
+    await page.getByLabel('Tasks (Kanban)').locator('div').filter({ hasText: /^Grid$/ }).click();
+    await page.getByRole('button', { name: 'Archived lanes' }).click();
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.getByRole('button', { name: 'Upgrade' }).click();
+    await page.locator('svg').first().click();
+    await page.getByRole('button', { name: 'jion(2) 1 hrs sort-ascending' }).getByRole('button').nth(1).click();
+    await page.getByRole('button', { name: 'jion(2) 1 hrs sort-ascending' }).click();
+    await page.getByRole('button', { name: 'jion(2) 1 hrs sort-ascending' }).getByRole('button').first().click();
+    await page.getByRole('button', { name: 'jion(2) 1 hrs sort-ascending' }).locator('a').click();
+    await page.getByRole('button', { name: 'jion(2) 1 hrs sort-ascending' }).getByRole('button').nth(2).click();
+    await page.getByPlaceholder('Task title').click();
+    await page.getByRole('button', { name: 'Add new task' }).click();
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.getByText('Confirmation!Are you sure you want to logout?CancelLogoutLogout').click();
+  });
+
+  test('document', async ({ page }) => {
+    await page.goto('https://specnota-nextgen.herokuapp.com/');
+    await page.getByPlaceholder('abrahamjohn@gmail.com').click();
+    await page.getByPlaceholder('abrahamjohn@gmail.com').fill('okolijohnson69@gmail.com');
+    await page.getByPlaceholder('******').click();
+    await page.getByPlaceholder('******').fill('12345678');
+    await page.getByRole('button', { name: 'Log In' }).click();
+    await page.pause()
+    await page.locator('.toggler').click();
+    await page.getByRole('link', { name: 'Projects' }).click();
+    await page.locator('.css-1jj8tj8 > div:nth-child(2) > svg > path').click();
+    await page.getByRole('button', { name: 'To tasks' }).click();
+    await page.getByRole('tab', { name: 'Sprints' }).click();
+    await page.getByRole('tab', { name: 'BackLogs' }).click();
+    await page.getByRole('tab', { name: 'Tasks (Kanban)' }).click();
+    await page.getByRole('tab', { name: 'Sprints' }).click();
+    await page.getByRole('tab', { name: 'Documents' }).click();
+    await page.getByText('Add Pages').first().click();
+    await page.getByRole('button', { name: 'cancel' }).click();
+    await page.getByText('Add Pages').nth(1).click();
+    await page.getByRole('button', { name: 'cancel' }).click();
+    await page.getByText('Add Pages').nth(2).click();
+    await page.getByRole('button', { name: 'cancel' }).click();
+    await page.getByText('Add Pages').first().click();
+    await page.getByRole('textbox').click();
+    await page.getByRole('textbox').fill('er');
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.getByText('Add Pages').nth(1).click();
+    await page.getByRole('textbox').click();
+    await page.getByRole('textbox').fill('fg');
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.getByText('Add Pages').nth(2).click();
+    await page.getByRole('textbox').click();
+    await page.getByRole('textbox').fill('dtgf');
+    await page.getByRole('button', { name: 'Close' }).click();
+    await page.locator('p').filter({ hasText: 'Logout' }).click();
+  });
